@@ -34,7 +34,7 @@ target_link_libraries(${PROJECT_NAME}
 	Threads::Threads
 )
 
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_auto_type)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 installLSLApp(${PROJECT_NAME})
 #installLSLAuxFiles(${PROJECT_NAME}
 #	${PROJECT_NAME}.cfg

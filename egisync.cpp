@@ -117,7 +117,7 @@ private:
 
 public:
 	LSLTriggerSink(const std::string& name)
-	    : outlet(lsl::stream_info(name, "trigger", 1, lsl::IRREGULAR_RATE, lsl::cf_int8), 1) {
+	    : outlet(lsl::stream_info(name, "trigger", 1, lsl::IRREGULAR_RATE, lsl::cf_string), 1) {
 		std::cout << "Create LSL outlet '" << name << "'\n";
 	}
 
@@ -165,7 +165,7 @@ int main(int argc, char** argv) {
 		}
 	}
 	std::cout << "Creating LSL outlet" << std::endl;
-	sinks.addSink<LSLTriggerSink>(std::string("test"));
+	sinks.addSink<LSLTriggerSink>("egisync");
 	std::cout << "Creating cout outlet" << std::endl;
 	sinks.addSink<OStreamTriggerSink>(std::cout);
 
