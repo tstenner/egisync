@@ -1,23 +1,21 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(EGISync
 	VERSION 0.1
 	LANGUAGES CXX)
 
+# also look for CMake modules in the cmake subfolder
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# set up LSL if not done already
-if(NOT TARGET LSL::lsl)
-	# when building out of tree LSL_ROOT needs to be specified on the cmd line
-	file(TO_CMAKE_PATH "${LSL_INSTALL_ROOT}" LSL_INSTALL_ROOT)
-	list(APPEND LSL_INSTALL_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../LSL/liblsl/build/install")
-	find_package(LSL HINTS ${LSL_INSTALL_ROOT}/share/LSL/ ${LSL_INSTALL_ROOT}/LSL/share/LSL QUIET)
-	if(NOT LSL_FOUND)
-		message(FATAL_ERROR "Precompiled LSL was not found. See https://github.com/labstreaminglayer/labstreaminglayer/blob/master/doc/BUILD.md#lsl_install_root for more information.")
-	endif()
-	list(APPEND CMAKE_MODULE_PATH ${LSL_DIR})
-	message(STATUS "Looking for LSLCMake in ${LSL_DIR}")
-	include(LSLCMake)
-endif()
+# Find an installed liblsl in paths set by the user (LSL_INSTALL_ROOT)
+# and some default paths
+find_package(LSL REQUIRED
+	HINTS ${LSL_INSTALL_ROOT}
+	"${CMAKE_CURRENT_LIST_DIR}/../lsl/LSL/liblsl/build/"
+	PATH_SUFFIXES share/LSL)
+get_filename_component(LSL_PATH ${LSL_CONFIG} DIRECTORY)
+message(STATUS "Found LSL lib in ${LSL_PATH}")
+LSLAPP_Setup_Boilerplate()
 
 find_package(Boost REQUIRED COMPONENTS system)
 find_package(Threads)

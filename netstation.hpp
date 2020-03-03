@@ -1,12 +1,12 @@
 #ifndef libnetstation_h
 #define libnetstation_h
 
+#define BOOST_ASIO_ENABLE_OLD_SERVICES
+
 #include <boost/asio.hpp>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
-
-#define BOOST_ASIO_ENABLE_OLD_SERVICES
 
 namespace ip = boost::asio::ip;
 using io_context = boost::asio::io_service;
